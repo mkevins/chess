@@ -1,3 +1,4 @@
+# coding: utf-8
 require_relative 'chess.rb'
 
 class StartPositionError < StandardError
@@ -124,8 +125,10 @@ class Board
 #        ┗━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┛
 #          a   b   c   d   e   f   g   h
 
-    puts UNICODE_BOX[:letters]
-    puts UNICODE_BOX[:top]
+    lines = []
+
+    lines << UNICODE_BOX[:letters]
+    lines << UNICODE_BOX[:top]
 
     @grid.each_with_index do |row, i|
 
@@ -136,13 +139,17 @@ class Board
         line += square + UNICODE_BOX[:thin_vertical]
       end
 
-      3.times { line.chop! }
-      puts line + UNICODE_BOX[:thick_vertical] + "#{8 - i}"
-      puts UNICODE_BOX[:middle_horizontal]
+      3.times { line.chop! } # remove extra :thin_vertical
+      lines << line + UNICODE_BOX[:thick_vertical] + "#{8 - i}"
+      lines << UNICODE_BOX[:middle_horizontal]
     end
 
-    puts UNICODE_BOX[:bottom]
-    puts UNICODE_BOX[:letters]
+    lines.pop # remove extra :middle_horizontal
+
+    lines << UNICODE_BOX[:bottom]
+    lines << UNICODE_BOX[:letters]
+
+    puts lines.join("\n")
 
     nil
   end
