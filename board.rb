@@ -8,6 +8,15 @@ end
 
 class Board
 
+  UNICODE_BOX = {
+    letters: "    a   b   c   d   e   f   g   h    ",
+    top: "  ┏━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┓  ",
+    thick_vertical: " ┃ ",
+    thin_vertical: " │ ",
+    middle_horizontal: "  ┠───┼───┼───┼───┼───┼───┼───┼───┨  ",
+    bottom: "  ┗━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┛  "
+  }
+
   def initialize
     @grid = Array.new(8) { Array.new(8) }
     populate_board
@@ -68,8 +77,6 @@ class Board
     nil
   end
 
-  end
-
   def populate_board
     pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
@@ -85,21 +92,62 @@ class Board
   end
 
   def display
-    puts "   #{('a'..'h').to_a.join(" ")}"
+
+#
+#     ─	━	│	┃	┄	┅	┆	┇	┈	┉	┊	┋	┌	┍	┎	┏
+#   	┐	┑	┒	┓	└	┕	┖	┗	┘	┙	┚	┛	├	┝	┞	┟
+#   	┠	┡	┢	┣	┤	┥	┦	┧	┨	┩	┪	┫	┬	┭	┮	┯
+#   	┰	┱	┲	┳	┴	┵	┶	┷	┸	┹	┺	┻	┼	┽	┾	┿
+#   	╀	╁	╂	╃	╄	╅	╆	╇	╈	╉	╊	╋	╌	╍	╎	╏
+#   	═	║	╒	╓	╔	╕	╖	╗	╘	╙	╚	╛	╜	╝	╞	╟
+#   	╠	╡	╢	╣	╤	╥	╦	╧	╨	╩	╪	╫	╬	╭	╮	╯
+#   	╰	╱	╲	╳	╴	╵	╶	╷	╸	╹	╺	╻	╼	╽	╾	╿
+#
+#
+#          a   b   c   d   e   f   g   h
+#        ┏━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┓
+#      8 ┃   │   │   │   │   │   │   │   ┃ 8
+#        ┠───┼───┼───┼───┼───┼───┼───┼───┨
+#      7 ┃   │   │   │   │   │   │   │   ┃ 7
+#        ┠───┼───┼───┼───┼───┼───┼───┼───┨
+#      6 ┃   │   │   │   │   │   │   │   ┃ 6
+#        ┠───┼───┼───┼───┼───┼───┼───┼───┨
+#      5 ┃   │   │   │   │   │   │   │   ┃ 5
+#        ┠───┼───┼───┼───┼───┼───┼───┼───┨
+#      4 ┃   │   │   │   │   │   │   │   ┃ 4
+#        ┠───┼───┼───┼───┼───┼───┼───┼───┨
+#      3 ┃   │   │   │   │   │   │   │   ┃ 3
+#        ┠───┼───┼───┼───┼───┼───┼───┼───┨
+#      2 ┃   │   │   │   │   │   │   │   ┃ 2
+#        ┠───┼───┼───┼───┼───┼───┼───┼───┨
+#      1 ┃   │   │   │   │   │   │   │   ┃ 1
+#        ┗━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┛
+#          a   b   c   d   e   f   g   h
+
+    puts UNICODE_BOX[:letters]
+    puts UNICODE_BOX[:top]
+
     @grid.each_with_index do |row, i|
-      print "#{8 - i}||"
-      row.each do |tile|
-        if tile.nil?
-          print "__"
-        else
-          print "#{tile.unicode} "
-        end
+
+      line = "#{8 - i}" + UNICODE_BOX[:thick_vertical]
+
+      row.each do |piece|
+        square = piece.nil? ? " " : piece.unicode
+        line += square + UNICODE_BOX[:thin_vertical]
       end
 
-      print "||#{8 - i}\n"
+      3.times { line.chop! }
+      puts line + UNICODE_BOX[:thick_vertical] + "#{8 - i}"
+      puts UNICODE_BOX[:middle_horizontal]
     end
-    puts "   #{('a'..'h').to_a.join(" ")}"
+
+    puts UNICODE_BOX[:bottom]
+    puts UNICODE_BOX[:letters]
 
     nil
   end
+
 end
+
+board = Board.new
+board.display

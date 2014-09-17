@@ -7,9 +7,9 @@ class Piece
   end
 
   def initialize(position, board, color)
-    self.position = position
     @board = board
     @color = color
+    self.position = position # need board first
   end
 
   def position
