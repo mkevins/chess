@@ -1,3 +1,5 @@
+# coding: utf-8
+require 'colorize'
 require_relative 'chess.rb'
 
 class EndPositionError < StandardError
@@ -7,12 +9,12 @@ end
 class Board
 
   UNICODE_BOX = {
-    letters: "    a   b   c   d   e   f   g   h    ",
-    top: "  ┏━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┓  ",
-    thick_vertical: " ┃ ",
-    thin_vertical: " │ ",
-    middle_horizontal: "  ┠───┼───┼───┼───┼───┼───┼───┼───┨  ",
-    bottom: "  ┗━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┛  "
+    letters: "     a   b   c   d   e   f   g   h     ",
+    top: "   ┏━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┓   ",
+    thick_vertical: "┃",
+    thin_vertical: "│",
+    middle_horizontal: "   ┠───┼───┼───┼───┼───┼───┼───┼───┨   ",
+    bottom: "   ┗━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┷━━━┛   "
   }
 
   def initialize(populate = true)
@@ -124,27 +126,29 @@ class Board
   def to_s
     lines = []
 
-    lines << UNICODE_BOX[:letters]
-    lines << UNICODE_BOX[:top]
+    lines << "                                       ".black.on_white
+    lines << UNICODE_BOX[:letters].black.on_white
+    lines << UNICODE_BOX[:top].black.on_white
 
     @grid.each_with_index do |row, i|
 
-      line = "#{8 - i}" + UNICODE_BOX[:thick_vertical]
+      line = " #{8 - i} #{UNICODE_BOX[:thick_vertical]}".black.on_white
 
-      row.each do |piece|
-        square = piece.nil? ? " " : piece.unicode
-        line += square + UNICODE_BOX[:thin_vertical]
+      row.each_with_index do |piece, j|
+        square = (piece.nil? ? "   " : " #{piece.unicode} ").colorize(:color => :white, :background => ((i + j).even? ? :light_red : :black))
+        line += square + UNICODE_BOX[:thin_vertical].black.on_white
       end
 
-      3.times { line.chop! } # remove extra :thin_vertical
-      lines << line + UNICODE_BOX[:thick_vertical] + "#{8 - i}"
-      lines << UNICODE_BOX[:middle_horizontal]
+      10.times { line.chop! } # remove extra :thin_vertical
+      lines << line + "#{UNICODE_BOX[:thick_vertical]} #{8 - i} ".black.on_white
+      lines << UNICODE_BOX[:middle_horizontal].black.on_white
     end
 
     lines.pop # remove extra :middle_horizontal
 
-    lines << UNICODE_BOX[:bottom]
-    lines << UNICODE_BOX[:letters]
+    lines << UNICODE_BOX[:bottom].black.on_white
+    lines << UNICODE_BOX[:letters].black.on_white
+    lines << "                                       ".black.on_white
 
     lines.join("\n")
   end

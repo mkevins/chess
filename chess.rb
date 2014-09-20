@@ -1,3 +1,4 @@
+# coding: utf-8
 class Piece
   attr_reader :board, :color, :position
 
