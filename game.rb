@@ -1,4 +1,5 @@
 require 'yaml'
+require 'colorize'
 require_relative 'board'
 
 class InputError < StandardError

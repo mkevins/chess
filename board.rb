@@ -9,6 +9,7 @@ end
 class Board
 
   UNICODE_BOX = {
+    blank: "                                       ",
     letters: "     a   b   c   d   e   f   g   h     ",
     top: "   ┏━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┯━━━┓   ",
     thick_vertical: "┃",
@@ -126,7 +127,7 @@ class Board
   def to_s
     lines = []
 
-    lines << "                                       ".black.on_white
+    lines << UNICODE_BOX[:blank].black.on_white
     lines << UNICODE_BOX[:letters].black.on_white
     lines << UNICODE_BOX[:top].black.on_white
 
@@ -148,7 +149,7 @@ class Board
 
     lines << UNICODE_BOX[:bottom].black.on_white
     lines << UNICODE_BOX[:letters].black.on_white
-    lines << "                                       ".black.on_white
+    lines << UNICODE_BOX[:blank].black.on_white
 
     lines.join("\n")
   end
