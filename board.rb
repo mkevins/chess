@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'colorize'
-require_relative 'chess.rb'
+require_relative 'pieces'
 
 class EndPositionError < StandardError
 end
